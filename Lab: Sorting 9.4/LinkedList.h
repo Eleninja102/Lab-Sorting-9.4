@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <memory>
+#include <vector>
 
 using std::ostream;
 using std::shared_ptr;
@@ -10,6 +11,8 @@ using std::make_shared;
 using std::runtime_error;
 using std::make_unique;
 using std::unique_ptr;
+using std::vector;
+
 
 template<class Type>
 struct Node {
@@ -181,8 +184,33 @@ void  LinkedList<Type>::mergeSort() {
 *************************************************************************/
 template<class Type>
 void  LinkedList<Type>::mergeSort(shared_ptr<Node <Type> > &head) {
-    
+    if(count == 0 || count == 1){
+        return;
+    }
+    //int tempcount = count;
+    vector<Type> leftside;
+    vector<Type> rightside;
 
+    auto temp1 = make_shared<Node<Type>>();
+    temp1 = head;
+
+    auto temp2 = make_shared<Node<Type>>();
+    temp2 = getMiddle(head);
+    auto temp3 = temp2;
+    for(int i = 0; temp2 != nullptr; i++){
+        if(temp3->data != head->data){
+            leftside.push_back(head->data);
+            head = head->next;
+        }
+        rightside.push_back(temp2->data);
+    
+        temp2 = temp2 -> next;
+    }
+    sort(rightside.begin(), rightside.end());
+    sort(leftside.begin(), leftside.end());
+
+    std::cout << "drugss";
+    
 }
 
 /*************************************************************************
@@ -194,15 +222,14 @@ void  LinkedList<Type>::mergeSort(shared_ptr<Node <Type> > &head) {
 *************************************************************************/
 template<class Type>
 shared_ptr<Node <Type> > LinkedList<Type>::getMiddle(shared_ptr<Node <Type> > head) {
-    std::cout << count/2 << std::endl;
-    std::cout << count<< std::endl;
-    if(count%2 == 0){
-        count--;
-        std::cout << count<< std::endl;
-
+    auto temp = make_shared<Node<Type>>();
+    int tempcount = count;
+ 
+    if(tempcount%2 == 0){
+        tempcount--;
     }
 
-    for(int i = 0; i < count/2; i++){
+    for(int i = 0; i < tempcount/2; i++){
         head = head->next;
     }
 
@@ -241,37 +268,19 @@ shared_ptr<Node <Type> > LinkedList<Type>::mergeInOrder(shared_ptr<Node <Type> >
             temp = temp->next;
             b = b->next;
         }else if(b == nullptr){
-            std::cout << "Adding a to list" << std::endl;
             temp->next = a;
             temp = temp->next;
-
-            std::cout << b->data << std::endl;
-         
             a = a->next;
         }
         else if(b->data <= a->data){
-
-            std::cout << b->data << std::endl;
-            std::cout << "Adding b to list" << std::endl;
-            std::cout << temp->data << std::endl;
             temp->next = b;
-           
             temp = temp->next;
             b = b->next;
-         
-            
         }
         else{
-            std::cout << "Adding a to list" << std::endl;
             temp->next = a;
             temp = temp->next;
-            //temp = temp->next;
-
-            std::cout << b->data << std::endl;
-            //temp->data = b->data;
-            //b = b->next;
             a = a->next;
-            //temp = temp->next;
         }
     }
     temphead = temphead->next;
