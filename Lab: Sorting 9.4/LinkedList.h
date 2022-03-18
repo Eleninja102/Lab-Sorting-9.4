@@ -61,7 +61,7 @@ public:
 
 	void mergeSort();
 	LinkedListIterator<Type> begin() { return LinkedListIterator<Type>(front); }
-
+    shared_ptr<Node<Type>> recure(shared_ptr<Node<Type>>head);
 	void mergeSort(shared_ptr<Node <Type> > &head);
 	shared_ptr<Node <Type> >  getMiddle(shared_ptr<Node <Type> > head);
 	shared_ptr<Node <Type> > mergeInOrder(shared_ptr<Node <Type> > a, shared_ptr<Node <Type> > b);
@@ -184,34 +184,36 @@ void  LinkedList<Type>::mergeSort() {
 *************************************************************************/
 template<class Type>
 void  LinkedList<Type>::mergeSort(shared_ptr<Node <Type> > &head) {
-    if(count == 0 || count == 1){
+    auto head2 = make_shared<Node<Type>>();
+    auto right = make_shared<Node<Type>>();
+    auto left = make_shared<Node<Type>>();
+    
+    head2 = head;
+    if(head2 == NULL || head2->next == NULL){
         return;
     }
-    //int tempcount = count;
-    vector<Type> leftside;
-    vector<Type> rightside;
+        
+        left = head2;
 
-    auto temp1 = make_shared<Node<Type>>();
-    temp1 = head;
 
-    auto temp2 = make_shared<Node<Type>>();
-    temp2 = getMiddle(head);
-    auto temp3 = temp2;
-    for(int i = 0; temp2 != nullptr; i++){
-        if(temp3->data != head->data){
-            leftside.push_back(head->data);
-            head = head->next;
-        }
-        rightside.push_back(temp2->data);
-    
-        temp2 = temp2 -> next;
-    }
-    sort(rightside.begin(), rightside.end());
-    sort(leftside.begin(), leftside.end());
+        auto temp2 = getMiddle(head);
+        right = temp2->next;
+        temp2->next = NULL;
+        
+        mergeSort(right);
+        mergeSort(left);
+        head = mergeInOrder(right, left);
 
-    std::cout << "drugss";
+  
+    //std::cout << "drugss";
     
 }
+template<class Type>
+shared_ptr<Node<Type>> LinkedList<Type>::recure(shared_ptr<Node<Type>>head){
+    
+    return head;
+}
+
 
 /*************************************************************************
 *  TODO:  Complete the getMiddle(head) method.  It should return the middle Node
@@ -223,17 +225,17 @@ void  LinkedList<Type>::mergeSort(shared_ptr<Node <Type> > &head) {
 template<class Type>
 shared_ptr<Node <Type> > LinkedList<Type>::getMiddle(shared_ptr<Node <Type> > head) {
     auto temp = make_shared<Node<Type>>();
-    int tempcount = count;
- 
-    if(tempcount%2 == 0){
-        tempcount--;
-    }
-
-    for(int i = 0; i < tempcount/2; i++){
+    temp = head;
+    while(temp->next != NULL){
+        if(temp->next->next == NULL){
+            temp = temp->next;
+            break;
+        }
+        temp = temp->next->next;
         head = head->next;
     }
-
-	return head;
+    
+    return head;
 }
 
 
