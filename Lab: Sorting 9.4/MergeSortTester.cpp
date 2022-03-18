@@ -101,7 +101,6 @@ void MergeSortTest() {
 
 	int result[] = { 12, 13, 18, 25, 32, 42, 50, 54, 55, 68, 75, 81, 96, 97 };
 	auto temp = myList.begin();
-	int i = 0;
 	bool test = true;
 	for (int i = 0; i < 14; i++) {
 		if (result[i] != *temp) {
