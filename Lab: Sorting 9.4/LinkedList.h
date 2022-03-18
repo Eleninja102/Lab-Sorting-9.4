@@ -184,21 +184,19 @@ void  LinkedList<Type>::mergeSort() {
 *************************************************************************/
 template<class Type>
 void  LinkedList<Type>::mergeSort(shared_ptr<Node <Type> > &head) {
-    auto head2 = make_shared<Node<Type>>();
     auto right = make_shared<Node<Type>>();
     auto left = make_shared<Node<Type>>();
     
-    head2 = head;
-    if(head2 == NULL || head2->next == NULL){
+   
+    if(head == nullptr || head->next == nullptr){
         return;
     }
         
-        left = head2;
-
+        left = head;
 
         auto temp2 = getMiddle(head);
         right = temp2->next;
-        temp2->next = NULL;
+        temp2->next = nullptr;
         
         mergeSort(right);
         mergeSort(left);
@@ -226,8 +224,8 @@ template<class Type>
 shared_ptr<Node <Type> > LinkedList<Type>::getMiddle(shared_ptr<Node <Type> > head) {
     auto temp = make_shared<Node<Type>>();
     temp = head;
-    while(temp->next != NULL){
-        if(temp->next->next == NULL){
+    while(temp->next != nullptr){
+        if(temp->next->next == nullptr){
             temp = temp->next;
             break;
         }
